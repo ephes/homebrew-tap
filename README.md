@@ -63,7 +63,7 @@ error below 20 (on the 0–255 scale). No image downloads are needed. Regression
 tests execute the formula's actual test block against real codecs, including
 a two-byte JPEG, incorrect dimensions, black output and a missing encoder.
 
-After installing the formula and `minitest` 6.0.0 for Ruby 3.2 or newer, run locally:
+After installing the formula and `minitest` 6.0.0 for Ruby 4.0 or newer, run locally:
 
 ```sh
 JPEG_TURBO_BIN="$(brew --prefix jpeg-turbo)/bin" \

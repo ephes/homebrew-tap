@@ -52,12 +52,12 @@ class Jpegli < Formula
     (testpath/"in.ppm").binwrite("P6\n4 4\n255\n" + pixels.pack("C*"))
 
     system bin/"cjpegli", testpath/"in.ppm", testpath/"out.jpg", "-d", "1.0"
-    assert_predicate testpath/"out.jpg", :exist?
+    assert_path_exists testpath/"out.jpg"
     assert_predicate (testpath/"out.jpg").size, :positive?
 
     # Decode independently with the declared jpeg-turbo dependency. A marker
     # alone accepts truncated output; decoding also verifies dimensions/content.
-    system Formula["jpeg-turbo"].opt_bin/"djpeg", "-rgb", "-pnm",
+    system formula_opt_bin("jpeg-turbo")/"djpeg", "-rgb", "-pnm",
            "-outfile", testpath/"decoded.ppm", testpath/"out.jpg"
     header, decoded = (testpath/"decoded.ppm").binread.split("\n", 4).then do |parts|
       [parts.first(3), parts.last.bytes]
