@@ -45,6 +45,9 @@ class ValidationTest < Minitest::Test
     assert_equal "brew test-bot --only-formulae ephes/tap/jpegli", build.fetch("run")
     regression = steps.find { |step| step["name"] == "Run regression tests" }
     assert_includes regression.fetch("run"), '"$ruby_bin" "$(brew --repository ephes/tap)/test/validation_test.rb"'
+    # The source-build fallback for test-bot's Intel skip stays Intel-only.
+    assert_includes regression.fetch("run"), 'if [[ "$RUNNER_OS" == macOS && "$(uname -m)" == x86_64 ]]'
+    assert_equal 1, regression.fetch("run").scan("--build-from-source").length
     permissions = WORKFLOW.fetch("jobs").fetch("test-bot").fetch("permissions")
     assert permissions.values.all?("read")
   end

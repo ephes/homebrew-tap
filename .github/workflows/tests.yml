@@ -49,6 +49,13 @@ jobs:
           # test-bot removes unchanged dependencies after testing. Restore them
           # and require an installed, working formula even if test-bot skipped it.
           brew install --only-dependencies ephes/tap/jpegli
+          # test-bot skips the formula on Intel macOS, where Homebrew no longer
+          # bottles its dependencies; build it from source there only, so an
+          # unexpected skip on any other runner still fails below.
+          if [[ "$RUNNER_OS" == macOS && "$(uname -m)" == x86_64 ]] &&
+            ! brew list --formula ephes/tap/jpegli >/dev/null 2>&1; then
+            brew install --build-from-source ephes/tap/jpegli
+          fi
           brew test ephes/tap/jpegli
           ruby_bin="$(brew ruby -rrbconfig -e 'puts RbConfig.ruby')"
           "$ruby_bin" -rrubygems/gem_runner -e 'Gem::GemRunner.new.run(ARGV)' -- \

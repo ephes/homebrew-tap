@@ -53,8 +53,10 @@ on Linux, Intel macOS and Apple Silicon macOS. In addition to tap syntax/audit
 checks, each run explicitly builds and tests `ephes/tap/jpegli`, the tap's
 only formula (a regression guard requires updating CI when another is added).
 Naming it avoids an empty changed-formula selection on branch
-pushes and also validates workflow-only changes. Bottle publication remains a
-separate manual workflow.
+pushes and also validates workflow-only changes. On Intel macOS, where Homebrew
+no longer bottles the dependencies, test-bot skips the formula, so the
+regression step builds it from source before testing. Bottle publication
+remains a separate manual workflow.
 
 The package smoke encodes an in-memory synthetic 4×4 RGB gradient at the existing
 `-d 1.0` setting, decodes it with the declared `jpeg-turbo` dependency's `djpeg`,
