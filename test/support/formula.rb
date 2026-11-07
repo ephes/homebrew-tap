@@ -11,6 +11,7 @@ class Formula
     def version(*) = nil
     def license(*) = nil
     def depends_on(*) = nil
+    def bottle(*) = nil
     def test(&block) = @test_block = block
   end
 end

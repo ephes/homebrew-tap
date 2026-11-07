@@ -18,6 +18,14 @@ class ValidationTest < Minitest::Test
     end
   end
 
+  def test_bottle_metadata_does_not_replace_the_smoke_test
+    formula = Class.new(Formula) do
+      bottle { raise "bottle metadata must not execute in the test harness" }
+      test { :smoke }
+    end
+    assert_equal :smoke, formula.test_block.call
+  end
+
   def test_explicit_build_target_covers_every_formula
     formulae = Dir.glob(File.expand_path("../Formula/*.rb", __dir__)).map { |path| File.basename(path) }
     assert_equal ["jpegli.rb"], formulae, "update CI targets when adding a formula"
