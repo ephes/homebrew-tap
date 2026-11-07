@@ -43,6 +43,8 @@ class ValidationTest < Minitest::Test
     # empty changed-formula range on branch events.
     refute build.key?("if"), "formula build must run on both events"
     assert_equal "brew test-bot --only-formulae ephes/tap/jpegli", build.fetch("run")
+    regression = steps.find { |step| step["name"] == "Run regression tests" }
+    assert_includes regression.fetch("run"), '"$ruby_bin" "$(brew --repository ephes/tap)/test/validation_test.rb"'
     permissions = WORKFLOW.fetch("jobs").fetch("test-bot").fetch("permissions")
     assert permissions.values.all?("read")
   end

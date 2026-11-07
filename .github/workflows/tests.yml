@@ -56,7 +56,7 @@ jobs:
           GEM_PATH="$RUNNER_TEMP/test-gems" \
             JPEG_TURBO_BIN="$(brew --prefix jpeg-turbo)/bin" \
             JPEGLI_BIN="$(brew --prefix jpegli)/bin" \
-            "$ruby_bin" test/validation_test.rb
+            "$ruby_bin" "$(brew --repository ephes/tap)/test/validation_test.rb"
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
